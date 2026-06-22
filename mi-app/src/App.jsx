@@ -5,6 +5,7 @@ function App() {
   const [desembarques, setDesembarques] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filtro, setFiltro] = useState("");
 
   const API_URL = "http://localhost:3001/desembarques";
 
@@ -29,6 +30,15 @@ function App() {
     obtenerDatos();
   }, []);
 
+      const texto = filtro.toLowerCase().trim();
+      const desembarquesFiltrados =
+        texto === ""
+          ? desembarques
+          : desembarques.filter((d) =>
+              d.especie.toLowerCase().includes(texto) ||
+              d.estado.toLowerCase().includes(texto)
+        );
+
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -36,7 +46,21 @@ function App() {
     <div>
       <h1>Panel de Desembarques</h1>
 
-      <ListaDesembarques desembarques={desembarques} />
+      <input
+        type="text"
+        placeholder="Filtrar por especie o estado"
+        value={filtro}
+        onChange={(e) => setFiltro(e.target.value)}
+      />
+
+      {desembarquesFiltrados.length === 0 && (
+        <p>No se encontraron resultados</p>
+      )}
+
+      {desembarquesFiltrados.length > 0 && (
+        <ListaDesembarques desembarques={desembarquesFiltrados} />
+      )}
+
     </div>
   );
 }
