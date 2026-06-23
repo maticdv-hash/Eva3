@@ -1,16 +1,97 @@
-# React + Vite
+# Panel de Desembarques - React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
 
-Currently, two official plugins are available:
+Este proyecto consiste en el desarrollo de una aplicación web SPA utilizando React, cuyo objetivo es visualizar, filtrar y gestionar los desembarques de una pesquera de la Región del Biobío.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+La aplicación consume una API REST, permite filtrar los registros y marcar desembarques como prioritarios, almacenando esta información en el navegador mediante Local Storage.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧩 Elementos de React utilizados
 
-## Expanding the ESLint configuration
+- **Componentes:**  
+  Se utilizaron componentes funcionales como App, ListaDesembarques y FilaDesembarque para organizar la aplicación.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Props:**  
+  Se utilizaron props para pasar datos entre componentes, como los desembarques, los prioritarios y las funciones de interacción.
+
+- **useState:**  
+  Se utilizó para manejar estados como:
+  - lista de desembarques
+  - filtro del usuario
+  - lista de prioritarios
+
+- **useEffect:**  
+  Se utilizó para:
+  - consumir la API
+  - manejar el loading y error
+  - guardar datos en localStorage
+
+- **JSX:**  
+  Se utilizó para renderizar la interfaz de usuario de forma dinámica.
+
+- **Eventos:**  
+  Se usaron eventos como onChange y onClick para interactuar con el usuario.
+
+---
+
+## 🌐 Consumo de API
+
+Se consumió la API utilizando fetch con async/await:
+
+http://localhost:3001/desembarques
+
+Se manejaron correctamente:
+- estados de carga
+- errores de conexión
+
+---
+
+## 💾 Uso de Local Storage
+
+Se implementó el marcado de desembarques como prioritarios, guardando los IDs en localStorage.
+
+Esto permite mantener la información incluso al recargar la página.
+
+---
+
+## 🔍 Filtro de datos
+
+Se implementó un filtro que permite buscar por:
+- especie
+- estado
+
+Se valida la entrada del usuario transformando el texto a minúsculas y eliminando espacios innecesarios.
+
+---
+
+## 🔐 Buenas prácticas de seguridad
+
+- Validación de entrada del usuario
+- Uso de variable de entorno (`.env`) para la URL de la API
+- Manejo de errores en la petición
+- Uso de localStorage de forma controlada
+
+---
+
+## 🤖 Uso de IA
+
+Se utilizó GitHub Copilot para sugerencias de código, especialmente en la implementación de:
+- useEffect
+- manejo de estados
+- filtros dinámicos
+
+Las sugerencias fueron aceptadas y ajustadas según las necesidades del proyecto.
+
+---
+
+## 🔎 Análisis con Sonar
+
+Se identificaron mejoras como:
+- simplificación de funciones
+- mejor manejo de dependencias en useEffect
+
+Se aplicaron ajustes para mejorar la calidad del código.
+
+---
