@@ -86,12 +86,16 @@ Las sugerencias fueron aceptadas y ajustadas según las necesidades del proyecto
 
 ---
 
-## 🔎 Análisis con Sonar
+### Hallazgo 1
 
-Se identificaron mejoras como:
-- simplificación de funciones
-- mejor manejo de dependencias en useEffect
+Se identificaron problemas en la estructura del JSX dentro del componente App.jsx, donde el cierre incorrecto de etiquetas provocaba errores de renderizado. 
 
-Se aplicaron ajustes para mejorar la calidad del código.
+Esto fue corregido reorganizando correctamente los elementos dentro del return para asegurar una estructura válida en React.
+
+### Hallazgo 2
+
+SonarQube detectó el uso de una operación ternaria anidada en el componente App.jsx, lo que dificulta la lectura y mantenimiento del código. 
+
+Este problema fue solucionado reemplazando la estructura ternaria por condicionales if, permitiendo una mejor organización de la lógica y mayor claridad en el código.
 
 ---

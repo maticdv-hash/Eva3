@@ -50,15 +50,19 @@ function App() {
 
   const texto = filtro.toLowerCase().trim();
 
-  const desembarquesFiltrados =
-    texto === ""
-      ? desembarques
-      : texto.length < 2
-      ? []
-      : desembarques.filter((d) =>
-          d.especie.toLowerCase().includes(texto) ||
-          d.estado.toLowerCase().includes(texto)
-        );
+  let desembarquesFiltrados = [];
+  
+  if (texto === "") {
+     desembarquesFiltrados = desembarques;
+  }  else if (texto.length < 2) {
+     desembarquesFiltrados = [];
+  }  else {
+     desembarquesFiltrados = desembarques.filter(
+       (d) =>
+         d.especie.toLowerCase().includes(texto) ||
+         d.estado.toLowerCase().includes(texto)
+     );
+  }
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error}</p>;
