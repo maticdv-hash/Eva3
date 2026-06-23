@@ -1,6 +1,6 @@
 import FilaDesembarque from "./FilaDesembarque";
 
-function ListaDesembarques({ desembarques }) {
+function ListaDesembarques({ desembarques, prioritarios, togglePrioritario }) {
   return (
     <table border="1">
       <thead>
@@ -10,11 +10,18 @@ function ListaDesembarques({ desembarques }) {
           <th>Fecha</th>
           <th>Kilos</th>
           <th>Estado</th>
+          <th>Prioritario</th>
         </tr>
       </thead>
+
       <tbody>
         {desembarques.map((d) => (
-          <FilaDesembarque key={d.id} data={d} />
+          <FilaDesembarque
+            key={d.id}
+            data={d}
+            prioritarios={prioritarios}
+            togglePrioritario={togglePrioritario}
+          />
         ))}
       </tbody>
     </table>

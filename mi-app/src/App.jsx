@@ -6,7 +6,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filtro, setFiltro] = useState("");
-
+  const [prioritarios, setPrioritarios] = useState(() => {
+    const guardados = localStorage.getItem("prioritarios");
+    return guardados ? JSON.parse(guardados) : [];
+  });
   const API_URL = "http://localhost:3001/desembarques";
 
   useEffect(() => {
@@ -30,6 +33,18 @@ function App() {
     obtenerDatos();
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("prioritarios", JSON.stringify(prioritarios));
+  }, [prioritarios]); 
+
+  const togglePrioritario = (id) => {
+    if (prioritarios.includes(id)) {
+      setPrioritarios(prioritarios.filter((p) => p !== id));
+    } else {
+      setPrioritarios([...prioritarios, id]);
+    }
+  };
+  
       const texto = filtro.toLowerCase().trim();
       const desembarquesFiltrados =
         texto === ""
@@ -57,9 +72,13 @@ function App() {
         <p>No se encontraron resultados</p>
       )}
 
-      {desembarquesFiltrados.length > 0 && (
-        <ListaDesembarques desembarques={desembarquesFiltrados} />
-      )}
+    {desembarquesFiltrados.length > 0 && (
+      <ListaDesembarques
+        desembarques={desembarquesFiltrados}
+        prioritarios={prioritarios}
+        togglePrioritario={togglePrioritario}
+      />
+    )}
 
     </div>
   );
