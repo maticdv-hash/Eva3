@@ -6,6 +6,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filtro, setFiltro] = useState("");
+  const [textoBusqueda, setTextoBusqueda] = useState("");
   const [prioritarios, setPrioritarios] = useState(() => {
     const guardados = localStorage.getItem("prioritarios");
     return guardados ? JSON.parse(guardados) : [];
@@ -44,7 +45,7 @@ function App() {
       setPrioritarios([...prioritarios, id]);
     }
   };
-  
+
       const texto = filtro.toLowerCase().trim();
       const desembarquesFiltrados =
         texto === ""
@@ -58,28 +59,43 @@ function App() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className="container">
+
       <h1>Panel de Desembarques</h1>
 
-      <input
-        type="text"
-        placeholder="Filtrar por especie o estado"
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value)}
-      />
-
-      {desembarquesFiltrados.length === 0 && (
+      <div className="buscador">
+        <input
+          type="text"
+          placeholder="Filtrar por especie o estado"
+          value={textoBusqueda}
+          onChange={(e) => setTextoBusqueda(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setFiltro(textoBusqueda);
+            }
+          }}
+        />
+        
+        <button
+          className="filtro"
+          onClick={() => setFiltro(textoBusqueda)}
+        >
+          Buscar
+        </button>
+      </div>
+      
+      {filtro !== "" && desembarquesFiltrados.length === 0 && (
         <p>No se encontraron resultados</p>
       )}
-
-    {desembarquesFiltrados.length > 0 && (
-      <ListaDesembarques
-        desembarques={desembarquesFiltrados}
-        prioritarios={prioritarios}
-        togglePrioritario={togglePrioritario}
-      />
-    )}
-
+      
+      {desembarquesFiltrados.length > 0 && (
+        <ListaDesembarques
+          desembarques={desembarquesFiltrados}
+          prioritarios={prioritarios}
+          togglePrioritario={togglePrioritario}
+        />
+      )}
+    
     </div>
   );
 }
