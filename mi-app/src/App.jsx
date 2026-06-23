@@ -10,7 +10,7 @@ function App() {
     const guardados = localStorage.getItem("prioritarios");
     return guardados ? JSON.parse(guardados) : [];
   });
-  const API_URL = "http://localhost:3001/desembarques";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const obtenerDatos = async () => {
