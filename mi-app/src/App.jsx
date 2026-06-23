@@ -7,10 +7,12 @@ function App() {
   const [error, setError] = useState(null);
   const [filtro, setFiltro] = useState("");
   const [textoBusqueda, setTextoBusqueda] = useState("");
+
   const [prioritarios, setPrioritarios] = useState(() => {
     const guardados = localStorage.getItem("prioritarios");
     return guardados ? JSON.parse(guardados) : [];
   });
+
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -36,7 +38,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("prioritarios", JSON.stringify(prioritarios));
-  }, [prioritarios]); 
+  }, [prioritarios]);
 
   const togglePrioritario = (id) => {
     if (prioritarios.includes(id)) {
@@ -46,13 +48,16 @@ function App() {
     }
   };
 
-      const texto = filtro.toLowerCase().trim();
-      const desembarquesFiltrados =
-        texto === ""
-          ? desembarques
-          : desembarques.filter((d) =>
-              d.especie.toLowerCase().includes(texto) ||
-              d.estado.toLowerCase().includes(texto)
+  const texto = filtro.toLowerCase().trim();
+
+  const desembarquesFiltrados =
+    texto === ""
+      ? desembarques
+      : texto.length < 2
+      ? []
+      : desembarques.filter((d) =>
+          d.especie.toLowerCase().includes(texto) ||
+          d.estado.toLowerCase().includes(texto)
         );
 
   if (loading) return <p>Cargando...</p>;
@@ -60,7 +65,6 @@ function App() {
 
   return (
     <div className="container">
-
       <h1>Panel de Desembarques</h1>
 
       <div className="buscador">
@@ -75,19 +79,16 @@ function App() {
             }
           }}
         />
-        
-        <button
-          className="filtro"
-          onClick={() => setFiltro(textoBusqueda)}
-        >
-          Buscar
-        </button>
       </div>
-      
-      {filtro !== "" && desembarquesFiltrados.length === 0 && (
+
+      {filtro !== "" && texto.length < 2 && (
+        <p>Ingrese al menos 2 caracteres</p>
+      )}
+
+      {filtro !== "" && texto.length >= 2 && desembarquesFiltrados.length === 0 && (
         <p>No se encontraron resultados</p>
       )}
-      
+
       {desembarquesFiltrados.length > 0 && (
         <ListaDesembarques
           desembarques={desembarquesFiltrados}
@@ -95,7 +96,6 @@ function App() {
           togglePrioritario={togglePrioritario}
         />
       )}
-    
     </div>
   );
 }
